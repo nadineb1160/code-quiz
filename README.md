@@ -11,7 +11,7 @@ I WANT to take a timed quiz on JavaScript fundamentals that stores high scores
 SO THAT I can gauge my progress compared to my peers
 ```
 
-## Acceptance Criteria
+## Includes:
 
 ```
 GIVEN I am taking a code quiz
@@ -34,7 +34,7 @@ The following animation demonstrates the application functionality:
 ## Technologies Used
 - HTML - used to create elements on the DOM
 - CSS - styles html elements on page
-- Javascript - dynamically creates random password
+- Javascript - to create functionality of quiz
 - Git - version control system to track changes to source code
 - GitHub - hosts repository that can be deployed to GitHub Pages
 
