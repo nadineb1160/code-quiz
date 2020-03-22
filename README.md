@@ -1,6 +1,7 @@
-# 04 Web APIs: Code Quiz
+# Web APIs: Coding Assesment
 
-As you proceed in your career as a web developer, you will probably be asked to complete a coding assessment, which is typically a combination of multiple-choice questions and interactive challenges. Build a timed code quiz with multiple-choice questions. This app will run in the browser and feature dynamically updated HTML and CSS powered by your JavaScript code. It will also feature a clean and polished user interface and be responsive, ensuring that it adapts to multiple screen sizes.
+This is a timed code quiz with multiple-choice questions. This app will run in the browser and feature dynamically updated HTML and CSS powered by JavaScript code. It will also feature a clean and polished user interface and be responsive, ensuring that it adapts to multiple screen sizes.
+
 
 ## User Story
 
@@ -14,15 +15,15 @@ SO THAT I can gauge my progress compared to my peers
 
 ```
 GIVEN I am taking a code quiz
-WHEN I click the start button
+IF I click the start button
 THEN a timer starts and I am presented with a question
-WHEN I answer a question
+IF I answer a question
 THEN I am presented with another question
-WHEN I answer a question incorrectly
+IF I answer a question incorrectly
 THEN time is subtracted from the clock
-WHEN all questions are answered or the timer reaches 0
+IF all questions are answered or the timer reaches 0
 THEN the game is over
-WHEN the game is over
+IF the game is over
 THEN I can save my initials and score
 ```
 
@@ -30,13 +31,17 @@ The following animation demonstrates the application functionality:
 
 ![code quiz](./Assets/04-web-apis-homework-demo.gif)
 
-### Review
+## Technologies Used
+- HTML - used to create elements on the DOM
+- CSS - styles html elements on page
+- Javascript - dynamically creates random password
+- Git - version control system to track changes to source code
+- GitHub - hosts repository that can be deployed to GitHub Pages
 
-You are required to submit the following for review:
+### Author links
+[LinkedIn](https://www.linkedin.com/in/nadine-bundschuh-731233b9)
+|
+[GitHub](https://github.com/nadineb1160)
 
-* The URL of the functional, deployed application.
-
-* The URL of the GitHub repository. Give the repository a unique name and include a README describing the project.
-
-- - -
-© 2019 Trilogy Education Services, a 2U, Inc. brand. All Rights Reserved.
+### Author Names
+- Nadine Bundschuh
