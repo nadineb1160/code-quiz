@@ -1,0 +1,25 @@
+.container {
+    text-align: center;
+    margin: 20px auto;
+    max-width: 50%;
+}
+
+/* #intro {
+    /display: none; 
+
+} */
+
+#question {
+    display: none;
+    text-align: left;
+    margin: 10px;
+}
+
+.answer-btns {
+    display: block;
+}
+
+.btn {
+    background-color: purple;
+    color: white;
+}

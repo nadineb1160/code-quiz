@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" type=text/css href="style.css">
+
+    <title>Code Quiz</title>
+  </head>
+  <body>
+    
+    <!-- Navbar -->
+
+    <nav class="navbar navbar-light bg-light">
+
+        <a class="navbar-brand" href="#">View Highscores</a>
+
+        <div class="nav justify-content-end" id="navbarText">
+            <!-- change name -->
+            <nav class="nav-item">
+                Timer: <span id="timer">0</span>
+            </nav>
+        </div>
+    </nav>
+
+    <br/>
+
+    <div class="container">
+        <div class="row">
+
+            <div class="col">
+                <!-- intro - hide when doing questions -->
+                <div id="intro">
+                    <header>
+                        <h1>Coding Quiz Challenge</h1>
+                    </header>
+                    
+                    <p>
+                        Try to answer the following code-related questioins within the time limit.
+                        Keep in mind that incorrent answers will penelize your score/time by ten seconds.
+                    </p>
+    
+                    <button id="start" class="btn">Start Quiz</button>
+                </div>
+                
+
+                <!-- questions - hide when doing intro -->
+                <div id="question">
+                    <!-- Question -->
+                    <header>
+                        <h1 id="question-text">#</h1>
+                    </header>
+
+                    <!-- Multiple choice options -->
+                    <div class="answer-btns">
+                        <button id="btn-1" type="button" class="btn">Question 1</button>
+                        <br><br>
+                        <button id="btn-2" type="button" class="btn">Question 2</button>
+                        <br><br>
+                        <button id="btn-3" type="button" class="btn">Question 3</button>
+                        <br><br>
+                        <button id="btn-4" type="button" class="btn">Question 4</button>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        
+    </header>
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+    <script src="script.js"></script>
+
+  </body>
+</html>
