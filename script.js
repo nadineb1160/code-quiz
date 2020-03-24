@@ -1,11 +1,18 @@
+// ******************
+// ***** TIMER ******
+// ******************
+
 // Timer Element - numeric
 var timeEl = document.getElementById("timer");
+
+// Timer function
+var timerInterval;
 
 // **************************
 // ***** INTRO SECTION ******
 // **************************
 
-// Intro Element
+// Intro Section
 var introSec = document.getElementById("intro");
 
 // Start Button
@@ -14,9 +21,47 @@ var startBtn = document.getElementById("start");
 // Event listener to start button
 startBtn.addEventListener("click", start);
 
+// **************************
+// ***** ANSWER SECTION *****
+// **************************
+
+// Answer Section
+var answerSec = document.getElementById("answer-check");
+
+// Answer incorrect or Correct
+var answer = document.getElementById("answer");
+
+// ***********************
+// ***** END SECTION *****
+// ***********************
+
+// End section
+var endSec = document.getElementById("end-game");
+
+// Score heading
+var finalScore = document.getElementById("final-score");
+
+// Input field
+var inputInitials = document.getElementById("inputInitials");
+
+// Submit button
+var submitBtn = document.getElementById("submit");
+
+// Event listener to submit button
+submitBtn.addEventListener("click", submit);
+
+// ***********************
+// ***** HIGHSCORES ******
+// ***********************
+
+var highscoreIndex = [];
+
 // *****************************
 // ***** QUESTION SECTION ******
 // *****************************
+
+// Current Question index
+var currentIndex = 0;
 
 // Question Element
 var questionSec = document.getElementById("question");
@@ -24,26 +69,24 @@ var questionSec = document.getElementById("question");
 // Question Text
 var questionText = document.getElementById("question-text");
 
-// Option button 1
+// Answer #1 option button
 var answerOne = document.getElementById("btn-1");
-// Option button 2
+// Answer #2 option button
 var answerTwo = document.getElementById("btn-2");
-// Option button 3
+// Answer #3 option button
 var answerThree = document.getElementById("btn-3");
-// Option button 4
+// Answer #4 option button
 var answerFour = document.getElementById("btn-4");
 
-// Answer Element Array
+// Answer Options Array
 var answerArray = [answerOne, answerTwo, answerThree, answerFour];
 
+// Event Listeners on answer buttons to check if user selection is correct
 for (var i = 0; i < answerArray.length; i++) {
-    answerArray[i].addEventListener("click", checkCorrect);
+    answerArray[i].addEventListener("click", function() {
+        checkCorrect(i);
+    });
 }
-// Event Listeners to answer buttons to check if correct
-// answerOne.addEventListener("click", checkCorrect);
-// answerTwo.addEventListener("click", checkCorrect);
-// answerThree.addEventListener("click", checkCorrect);
-// answerFour.addEventListener("click", checkCorrect);
 
 // Question #1 
 var questionOne = {
@@ -96,7 +139,10 @@ var questionArray = [questionOne, questionTwo, questionThree, questionFour, ques
 // Set timer count to 75
 var timeLeft = 75;
 
+// Start of quiz
 function start() {
+
+    console.log(timeLeft);
 
     // Start timer
     startTimer();
@@ -111,54 +157,31 @@ function start() {
 // ******************
 function startTimer() {
 
-    var timerInterval = setInterval(function() {
-      timeEl.textContent = timeLeft;
-      // Decrement time left
-      timeLeft--;
+    timerInterval = setInterval(function() {
+        
+        timeEl.textContent = timeLeft;
+        // Decrement time left
+        timeLeft--;
+        console.log(timeLeft);
 
       
-      // Countdown finished, switch to score section
-      if (timeLeft === 0) {
-        timeEl.textContent = "";
-        // speedRead();
-        clearInterval(timerInterval);
-        // call scoreboard
-      }
-  
+        // Countdown finished, switch to score section
+        if (timeLeft === 0) {
+            timeEl.textContent = "";
+            clearInterval(timerInterval);
+            // Call End Game
+            endGame();
+
+        }
+    
     }, 1000);
 }
 // ******************
 
-var isAnswered;
-
-// THEN a timer starts and I am presented with a question
 function startQuiz() {
 
-    // Number of total questions
-    var questionsLeft = questionArray.length;
-    // lastIndex number
-    var lastIndex = questionsLeft - 1;
-    // starting question
-    var currentIndex = 0;
-
-    // While there are still more questions or more time
-    while (currentIndex <= lastIndex && timeLeft !== 0) {
-        // Reset is answered to false
-        isAnswered = false;
-
-        // display current question
-        displayQuestion(currentIndex);
-
-
-        if (isAnswered === true) {
-            // Check results
-            console.log('true');
-            // Show correct or incorrect
-        }
-
-        currentIndex++;
-
-    }
+    // display first question
+    displayQuestion(0);
 
 }
 
@@ -181,36 +204,109 @@ function displayQuestion (questionIndex) {
     questionSec.style.display = "block";
 }
 
+
+var scoreCount = 0;
+
+// Number of total questions
+var questionsLeft = questionArray.length;
+// lastIndex number
+var lastIndex = questionsLeft - 1;
+
 // check if button selected is correct answer
-function checkCorrect () {
-    // Question has been answered
-    isAnswered = true;
-    // Show correct or incorrent message
+function checkCorrect (indexOfAnswer) {
 
-    // get user index
-    // get correct index
+    // Check if correct answer is the same as answer index
+    if (questionArray[currentIndex].answerIndex === indexOfAnswer) {
+        // Display correct
+        answer = "Correct";
+        // + 20 points if answered correctly
+        scoreCount = scoreCount + 20;
+        
+    }
+    // Incorrect answer 
+    else {
 
-    // add to score
-    // or subtract
+        // Display incorrect
+        answer = "Incorrect";
+         // - 5 points if answered incorrectly
+         scoreCount = scoreCount - 5;
+
+        // Decrement time
+        if (timeLeft > 20) {
+            timeLeft = timeLeft - 10;
+        }
+
+    }
+
+    // Display if you answered correct
+    answerSec.style.display = "block";
+
+    // Display correct
+    if (currentIndex !== lastIndex) {
+        // Move to next question
+        currentIndex++;
+        // display next question
+        displayQuestion(currentIndex);
+    }
+    else {
+        // End game screen
+        endGame();
+    }
+
 }
 
-// IF I click the start button
 
-// THEN a timer starts and I am presented with a question
+// Show endgame section
+function endGame() {
 
+    // Stop timer
+    clearInterval(timerInterval);
 
-// IF I answer a question
+    // Add to score the number of seconds left
+    scoreCount = scoreCount +  timeEl.textContent;
 
-// THEN I am presented with another question
+    // Set to 0
+    timeEl.textContent = 0;
 
-// IF I answer a question incorrectly
+    // Hide question section
+    questionSec.style.display = "none";
 
-// THEN time is subtracted from the clock
+    // Show end section
+    endSec.style.display = "block";
 
-// IF all questions are answered or the timer reaches 0
+}
 
-// THEN the game is over
+function submit() {
 
-// IF the game is over
+    // Get initials value and trim 
+    var initialsTrim = inputInitials.value.trim();
 
-// THEN I can save my initials and score
+    // User highscore object
+    // var userScore = {
+    //     initials: initialsTrim,
+    //     highscore: scoreCount
+    // }
+
+    // Set initials in local storage
+    // will overwrite if initials are the same
+    localStorage.setItem(initialsTrim, scoreCount);
+
+    // Go to highscores page
+
+}
+
+// Back button
+var backBtn = document.getElementById("back");
+// Event listener on back button
+backBtn.addEventListener("click", function() {
+    // Go back to index.html?
+    console.log("back");
+});
+
+// clear button
+var clearBtn = document.getElementById("clear");
+// Event listener on clear button
+clearBtn.addEventListener("click", function() {
+    // 
+    console.log("clear");
+});

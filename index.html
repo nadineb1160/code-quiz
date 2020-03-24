@@ -30,10 +30,12 @@
     <br/>
 
     <div class="container">
+
         <div class="row">
 
             <div class="col">
-                <!-- intro - hide when doing questions -->
+
+                <!-- INTRO -->
                 <div id="intro">
                     <header>
                         <h1>Coding Quiz Challenge</h1>
@@ -48,9 +50,8 @@
                 </div>
                 
 
-                <!-- questions - hide when doing intro -->
+                <!-- QUESTION -->
                 <div id="question">
-                    <!-- Question -->
                     <header>
                         <h1 id="question-text">#</h1>
                     </header>
@@ -68,10 +69,53 @@
                     </div>
 
                 </div>
+
+                <!-- END OF GAME -->
+                <div id="end-game">
+                    <header>
+                        <h1>All Done!</h1>
+                    </header>
+
+                    <h2 id="final-score"></h2>
+
+                    <div class="form-group row">
+                        <!-- Label for intials -->
+                        <label for="inputInitials" class="col-sm-3 col-form-label">Enter initials:</label>
+                        <!-- Form input -->
+                        <div class="col-sm-7">
+                          <input class="form-control" id="inputInitials" />
+                        </div class="col-sm-2">
+                        <!-- Submit button -->
+                        <button id="submit" class="btn mb-2">Submit</button>
+                      </div>
+                </div>
+
+                <!-- ANSWER FOOTER -->
+                <div id="answer-check">
+
+                    <hr>
+
+                    <h3 id="answer"></h3>
+                </div>
+
+                <!-- HIGHSCORES -->
+                <div id="highscores">
+                    <header>
+                        <h1>Highscores</h1>
+                    </header>
+                    
+                    <div id="highscore-list">
+                        <!-- bootstrap alerts added -->
+                    </div>
+    
+                    <button id="back" class="btn">Go Back</button>
+                    <button id="clear" class="btn">Clear Highscores</button>
+
+                </div>
             </div>
         </div>
         
-    </header>
+    </div>
 
 
     <!-- Optional JavaScript -->
