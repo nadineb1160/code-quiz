@@ -29,3 +29,7 @@
     margin-top: 10px;
 }
 
+#highscore-list {
+    background-color: hsla(300, 100%, 60%, 0.372);
+    
+}

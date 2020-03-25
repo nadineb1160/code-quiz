@@ -2,6 +2,9 @@
 // ***** TIMER ******
 // ******************
 
+// Time remaining
+var timeLeft = 80;
+
 // Timer Element - numeric
 var timeEl = document.getElementById("timer");
 
@@ -61,7 +64,7 @@ var scoreCount = 0;
 var highscoresArr = [];
 
 // Highscore Section
-var highscoreSec = document.getElementById("highscore");
+var highscoreSec = document.getElementById("highscores");
 
 // Highscore button - in navbar
 var highscoreBtn = document.querySelector(".hs-btn");
@@ -70,7 +73,7 @@ var highscoreBtn = document.querySelector(".hs-btn");
 highscoreBtn.addEventListener("click", getHighscores);
 
 // Highscore list - in HS section
-var highscoresList = document.getElementById(".highscore-list")
+var highscoresList = document.getElementById("highscore-list")
 
 // Back button
 var backBtn = document.getElementById("back");
@@ -82,10 +85,7 @@ backBtn.addEventListener("click", returnToHomePage);
 var clearBtn = document.getElementById("clear");
 
 // Event listener on clear button
-clearBtn.addEventListener("click", function() {
-    // clear scores in mem?
-    
-});
+clearBtn.addEventListener("click", clearScores);
 
 // *****************************
 // ***** QUESTION SECTION ******
@@ -129,8 +129,8 @@ var questionArray = [
     // Question #2 
     {
         question: "Media queries...",
-        answerOptions: ["1. are used to display alerts, prompts and confirmations.", "2. define which questions you can ask on webpage.", 
-                        "3. help style videos.", "4. define how styles are applied based on characteristics of viewport."],
+        answerOptions: ["1. are used to display alerts, prompts and confirmations.", "2. define which questions you can ask on webpage.",
+            "3. help style videos.", "4. define how styles are applied based on characteristics of viewport."],
         answerIndex: 3,
     },
 
@@ -138,7 +138,7 @@ var questionArray = [
     {
         question: "Viewport refers to...",
         answerOptions: ["1. the small icon in the webpage tab next to title.", "2. display being used to view the website.",
-                        "3. the header section that appears on every webpage with the same template.", "4. what the user views at a particular time."],
+            "3. the header section that appears on every webpage with the same template.", "4. what the user views at a particular time."],
         answerIndex: 1,
     },
 
@@ -152,7 +152,7 @@ var questionArray = [
     // Question #5
     {
         question: "Which of the following is not true about rows?",
-        answerOptions: ["1. In the syntax: row-sz-#, sz refers to viewing size.","2. There can be sub-rows.","3. They belong inside columns.", "4. They can be a maximum of 12 wide."],
+        answerOptions: ["1. In the syntax: row-sz-#, sz refers to viewing size.", "2. There can be sub-rows.", "3. They belong inside columns.", "4. They can be a maximum of 12 wide."],
         answerIndex: 2,
     },
 
@@ -163,13 +163,6 @@ var questionArray = [
         answerIndex: 0,
     },
 ]
-
-// Array of questions
-//var questionArray = [questionOne, questionTwo, questionThree, questionFour, questionFive, questionSix];
-
-
-// Set timer count to 75
-var timeLeft = 75;
 
 // Start of quiz
 function start() {
@@ -187,8 +180,8 @@ function start() {
 // ******************
 function startTimer() {
 
-    timerInterval = setInterval(function() {
-        
+    timerInterval = setInterval(function () {
+
         timeEl.textContent = timeLeft;
         // Decrement time left
         timeLeft--;
@@ -201,7 +194,7 @@ function startTimer() {
             endGame();
 
         }
-    
+
     }, 1000);
 }
 // ******************
@@ -213,7 +206,7 @@ function startQuiz() {
 
 }
 
-function displayQuestion (questionIndex) {
+function displayQuestion(questionIndex) {
     // Current question
     var currentQuestion = questionArray[questionIndex];
     // Current answer array
@@ -227,7 +220,7 @@ function displayQuestion (questionIndex) {
         // Change answer elements to new answer options
         answerArray[j].innerHTML = answerOpts[j];
     }
-    
+
     // Show question section
     questionSec.style.display = "block";
 }
@@ -238,9 +231,8 @@ var questionsLeft = questionArray.length;
 var lastIndex = questionsLeft - 1;
 
 // check if button selected is correct answer
-function checkCorrect () {
+function checkCorrect() {
 
-    console.log(questionArray[currentIndex].answerIndex);
     var id = parseInt(this.value);
 
     // Check if correct answer is the same as answer index
@@ -258,14 +250,13 @@ function checkCorrect () {
         // Display incorrect
         answer.innerHTML = "Incorrect";
 
-         // - 5 points if answered incorrectly
-         scoreCount = scoreCount - 5;
-         
+        // - 5 points if answered incorrectly
+        scoreCount = scoreCount - 5;
+
         // Decrement time
         if (timeLeft > 20) {
             timeLeft = timeLeft - 10;
         }
-
     }
 
     // Display if you answered correct
@@ -282,7 +273,6 @@ function checkCorrect () {
         // End game screen
         endGame();
     }
-
 }
 
 
@@ -293,12 +283,8 @@ function endGame() {
     clearInterval(timerInterval);
 
     // Add to score the number of seconds left
-    console.log(scoreCount);
     var timeInt = parseInt(timeEl.textContent);
     scoreCount = scoreCount + timeInt;
-
-    console.log("endGame");
-    console.log(scoreCount);
 
     // Set to 0
     timeEl.textContent = 0;
@@ -311,15 +297,17 @@ function endGame() {
 
 }
 
-
-
+// When submit button is clicked
 function submit() {
+    event.preventDefault();
 
     // Get initials value and trim 
     var initialsTrim = inputInitials.value.trim();
 
-    // Clear input 
-    inputInitials.value = "";
+    // Return early if initials is blank
+    if (initialsTrim === "") {
+        return;
+    }
 
     // User highscore object
     var userScore = {
@@ -327,33 +315,106 @@ function submit() {
         highscore: scoreCount
     }
 
+    // Add new highscore
     highscoresArr.push(userScore);
+    console.log(highscoresArr);
 
-    // Set highscore to stringifyed array
-    localStorage.setItem("highscores", JSON.stringify(highscoresArr));
+    // Clear input 
+    inputInitials.value = "";
+
+
+    // Store updatd highscores in local storage, re-render list
+    storeHighscores();
+    renderHighscores();
+
+    // Hide end and answer section
+    clearDisplay();
 
     // Go to highscores page
     highscoreSec.style.display = "block";
+
+}
+
+function renderHighscores() {
+    // Clear highscores-list element
+    highscoresList.innerHTML = "";
+
+    // Render a new p for each highscore
+    for (var i = 0; i < highscoresArr.length; i++) {
+        // Get score for each input
+        var userInitials = highscoresArr[i].initials;
+        var score = highscoresArr[i].highscore;
+
+        // Create a new obj, set content
+        var p = document.createElement("p");
+        p.textContent = userInitials + "-" + score;
+        p.setAttribute("data-index", i);
+
+        // Append initials - highscore
+        highscoresList.appendChild(p);
+
+    }
+}
+
+// GET HIGHSCORES
+function getHighscores() {
+
+    // Stop / clear count if high scores is clicked in middle of game
+    clearInterval(timerInterval);
+    timeEl.textContent = "";
+
+    // Hide All Sections
+    clearDisplay();
+
+    // Get highscores array of userscores
+    storedHighscores = JSON.parse(localStorage.getItem("highscores"));
+
+    if (highscoresArr !== null) {
+        highscoresArr = storedHighscores;
+    }
+
+    // Render highscores on DOM
+    renderHighscores();
+
+    // Go to highscores page
+    highscoreSec.style.display = "block";
+
+}
+
+// STORE HIGHSCORES
+function storeHighscores() {
+
+    // Set highscore to stringifyed array in local storage
+    localStorage.setItem("highscores", JSON.stringify(highscoresArr));
+
+}
+
+// RETURN BACK
+function returnToHomePage() {
+
+    // Clear displays
+    clearDisplay();
+
+    // Reload page
+    location.reload();
     
 }
 
+// CLEAR DISPLAY
+function clearDisplay() {
 
-function getHighscores() {
-
-    // Get highscores array of userscores
-    highscoresArr = JSON.parse(localStorage.getItem("highscores"));
-
-    // Loop through each HS
-    // for (var i = 0; i < highscoresArr.length; i++) {
-        // create a new obj
-
-        // change the textContent 
-
-        // diplay obj   
-    //}
-
+    introSec.style.display = "none";
+    questionSec.style.display = "none";
+    answerSec.style.display = "none";
+    endSec.style.display = "none";
+    highscoreSec.style.display = "none";
 }
 
-function returnToHomePage() {
-    // reload main page?
+// CLEAR SCORES
+function clearScores() {
+
+    localStorage.clear("highscore");
+    highscoresArr = [];
+    storeHighscores();
+    renderHighscores();
 }
