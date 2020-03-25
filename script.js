@@ -74,7 +74,7 @@ var highscoreSec = document.getElementById("highscores");
 var highscoreBtn = document.querySelector(".hs-btn");
 
 // Event listener to highscores button
-highscoreBtn.addEventListener("click", getHighscores);
+highscoreBtn.addEventListener("click", showHighscores);
 
 // Highscore list - in HS section
 var highscoresList = document.getElementById("highscore-list");
@@ -301,7 +301,7 @@ function endGame() {
     timeEl.textContent = 0;
 
     // Hide question section
-    questionSec.style.display = "none";
+    clearDisplay();
 
     // Show end section
     endSec.style.display = "block";
@@ -311,6 +311,7 @@ function endGame() {
 // When submit button is clicked
 function submit() {
 
+    // Prevent default form behvaior
     event.preventDefault();
 
     // Get initials value and trim 
@@ -336,8 +337,11 @@ function submit() {
     // Clear input 
     inputInitials.value = "";
 
-    // Store updatd highscores in local storage, re-render list
+    // Store updated highscores in local storage, re-render list
     storeHighscores();
+
+    // Show highscores
+    showHighscores();
 
 }
 
@@ -347,6 +351,8 @@ function renderHighscores() {
 
     // Clear highscores-list element
     highscoresList.innerHTML = "";
+
+    getHighscores();
 
     // Render a new p for each highscore
     for (var i = 0; i < highscoresArr.length; i++) {
@@ -363,10 +369,22 @@ function renderHighscores() {
         highscoresList.appendChild(p);
 
     }
+
+    console.log(highscoresArr);
 }
 
-// Display highscore sec
+// Get highscores from local storage
 function getHighscores() {
+
+    // Get highscores array of userscores
+    if (localStorage.getItem("highscores") !== null) {
+        highscoresArr = JSON.parse(localStorage.getItem("highscores"));
+    }
+
+}
+
+// Show highscores section
+function showHighscores() {
 
     // Stop / clear count if high scores is clicked in middle of game
     clearInterval(timerInterval);
@@ -374,14 +392,6 @@ function getHighscores() {
 
     // Hide All Sections
     clearDisplay();
-
-    // Get highscores array of userscores
-    storedHighscores = JSON.parse(localStorage.getItem("highscores"));
-
-    // Set highscoresArr to stored array if not null
-    if (highscoresArr !== null) {
-        highscoresArr = storedHighscores;
-    }
 
     // Render highscores on DOM
     renderHighscores();
@@ -391,7 +401,7 @@ function getHighscores() {
 
 }
 
-// STORE HIGHSCORES
+// Store highscores
 function storeHighscores() {
 
     // Set highscore to stringifyed array in local storage
@@ -399,7 +409,7 @@ function storeHighscores() {
 
 }
 
-// RETURN BACK
+// Return back to intro section
 function returnToHomePage() {
 
     // Clear displays
@@ -410,7 +420,7 @@ function returnToHomePage() {
     
 }
 
-// CLEAR DISPLAY
+// Clear display
 function clearDisplay() {
 
     introSec.style.display = "none";
@@ -420,7 +430,7 @@ function clearDisplay() {
     highscoreSec.style.display = "none";
 }
 
-// CLEAR SCORES
+// Clear scores
 function clearScores() {
 
     localStorage.clear("highscore");
