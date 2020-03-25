@@ -327,16 +327,17 @@ function submit() {
         highscore: scoreCount
     }
 
+    // Get Highscores 
+    getHighscores();
+
     // Add new highscore
     highscoresArr.push(userScore);
-    
+
     // Clear input 
     inputInitials.value = "";
 
-
     // Store updatd highscores in local storage, re-render list
     storeHighscores();
-    getHighscores();
 
 }
 
@@ -377,6 +378,7 @@ function getHighscores() {
     // Get highscores array of userscores
     storedHighscores = JSON.parse(localStorage.getItem("highscores"));
 
+    // Set highscoresArr to stored array if not null
     if (highscoresArr !== null) {
         highscoresArr = storedHighscores;
     }
