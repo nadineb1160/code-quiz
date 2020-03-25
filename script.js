@@ -1,3 +1,7 @@
+// ***********************
+// ------ VARIABLES ------
+// ***********************
+
 // ******************
 // ***** TIMER ******
 // ******************
@@ -5,7 +9,7 @@
 // Time remaining
 var timeLeft = 80;
 
-// Timer Element - numeric
+// Timer element - numeric
 var timeEl = document.getElementById("timer");
 
 // Timer function
@@ -15,10 +19,10 @@ var timerInterval;
 // ***** INTRO SECTION ******
 // **************************
 
-// Intro Section
+// Intro section
 var introSec = document.getElementById("intro");
 
-// Start Button
+// Start button
 var startBtn = document.getElementById("start");
 
 // Event listener to start button
@@ -28,10 +32,10 @@ startBtn.addEventListener("click", start);
 // ***** ANSWER SECTION *****
 // **************************
 
-// Answer Section
+// Answer section
 var answerSec = document.getElementById("answer-check");
 
-// Answer incorrect or Correct
+// Answer incorrect or correct
 var answer = document.getElementById("answer");
 
 // ***********************
@@ -63,7 +67,7 @@ var scoreCount = 0;
 // Saved highscores array
 var highscoresArr = [];
 
-// Highscore Section
+// Highscore section
 var highscoreSec = document.getElementById("highscores");
 
 // Highscore button - in navbar
@@ -73,7 +77,7 @@ var highscoreBtn = document.querySelector(".hs-btn");
 highscoreBtn.addEventListener("click", getHighscores);
 
 // Highscore list - in HS section
-var highscoresList = document.getElementById("highscore-list")
+var highscoresList = document.getElementById("highscore-list");
 
 // Back button
 var backBtn = document.getElementById("back");
@@ -91,13 +95,13 @@ clearBtn.addEventListener("click", clearScores);
 // ***** QUESTION SECTION ******
 // *****************************
 
-// Current Question index
+// Current question index
 var currentIndex = 0;
 
-// Question Element
+// Question element
 var questionSec = document.getElementById("question");
 
-// Question Text
+// Question text
 var questionText = document.getElementById("question-text");
 
 // Answer #1 option button
@@ -109,10 +113,11 @@ var answerThree = document.getElementById("btn-3");
 // Answer #4 option button
 var answerFour = document.getElementById("btn-4");
 
-// Answer Options Array
+// Answer options array
 var answerArray = [answerOne, answerTwo, answerThree, answerFour];
 
-// Event Listeners on answer buttons to check if user selection is correct
+// Event listeners on answer buttons 
+// Checks if user selection is correct
 for (var i = 0; i < answerArray.length; i++) {
     answerArray[i].addEventListener("click", checkCorrect);
 }
@@ -164,7 +169,17 @@ var questionArray = [
     },
 ]
 
-// Start of quiz
+// Number of total questions
+var questionsLeft = questionArray.length;
+
+// lastIndex number
+var lastIndex = questionsLeft - 1;
+
+// ************************************
+// ------------- FUNCTIONS ------------
+// ************************************
+
+// Start quiz
 function start() {
 
     // Start timer
@@ -176,8 +191,7 @@ function start() {
     startQuiz();
 }
 
-
-// ******************
+// Timer
 function startTimer() {
 
     timerInterval = setInterval(function () {
@@ -186,7 +200,7 @@ function startTimer() {
         // Decrement time left
         timeLeft--;
 
-        // Countdown finished, switch to score section
+        // Countdown finished
         if (timeLeft === 0) {
             clearInterval(timerInterval);
             timeEl.textContent = "";
@@ -197,8 +211,8 @@ function startTimer() {
 
     }, 1000);
 }
-// ******************
 
+// Start quiz questions
 function startQuiz() {
 
     // display first question
@@ -206,9 +220,12 @@ function startQuiz() {
 
 }
 
+// Display question at index
 function displayQuestion(questionIndex) {
+
     // Current question
     var currentQuestion = questionArray[questionIndex];
+
     // Current answer array
     var answerOpts = currentQuestion.answerOptions;
 
@@ -225,17 +242,12 @@ function displayQuestion(questionIndex) {
     questionSec.style.display = "block";
 }
 
-// Number of total questions
-var questionsLeft = questionArray.length;
-// lastIndex number
-var lastIndex = questionsLeft - 1;
-
-// check if button selected is correct answer
+// Check if button selected is correct answer
 function checkCorrect() {
 
     var id = parseInt(this.value);
 
-    // Check if correct answer is the same as answer index
+    // If correct...
     if (questionArray[currentIndex].answerIndex === id) {
         // Display correct
         answer.innerHTML = "Correct";
@@ -244,8 +256,7 @@ function checkCorrect() {
         scoreCount = scoreCount + 20;
 
     }
-    // Incorrect answer 
-    else {
+    else { // Incorrect answer 
 
         // Display incorrect
         answer.innerHTML = "Incorrect";
@@ -262,11 +273,11 @@ function checkCorrect() {
     // Display if you answered correct
     answerSec.style.display = "block";
 
-    // Display correct
+    // If not the last question...
     if (currentIndex !== lastIndex) {
         // Move to next question
         currentIndex++;
-        // display next question
+        // Display next question
         displayQuestion(currentIndex);
     }
     else {
@@ -299,6 +310,7 @@ function endGame() {
 
 // When submit button is clicked
 function submit() {
+
     event.preventDefault();
 
     // Get initials value and trim 
@@ -317,25 +329,21 @@ function submit() {
 
     // Add new highscore
     highscoresArr.push(userScore);
-    console.log(highscoresArr);
-
+    
     // Clear input 
     inputInitials.value = "";
 
 
     // Store updatd highscores in local storage, re-render list
     storeHighscores();
-    renderHighscores();
-
-    // Hide end and answer section
-    clearDisplay();
-
-    // Go to highscores page
-    highscoreSec.style.display = "block";
+    getHighscores();
 
 }
 
+
+// Create new objs from highscores Array
 function renderHighscores() {
+
     // Clear highscores-list element
     highscoresList.innerHTML = "";
 
@@ -356,7 +364,7 @@ function renderHighscores() {
     }
 }
 
-// GET HIGHSCORES
+// Display highscore sec
 function getHighscores() {
 
     // Stop / clear count if high scores is clicked in middle of game
