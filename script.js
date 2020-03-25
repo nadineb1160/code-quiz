@@ -54,7 +54,38 @@ submitBtn.addEventListener("click", submit);
 // ***** HIGHSCORES ******
 // ***********************
 
-var highscoreIndex = [];
+// Total score count
+var scoreCount = 0;
+
+// Saved highscores array
+var highscoresArr = [];
+
+// Highscore Section
+var highscoreSec = document.getElementById("highscore");
+
+// Highscore button - in navbar
+var highscoreBtn = document.querySelector(".hs-btn");
+
+// Event listener to highscores button
+highscoreBtn.addEventListener("click", getHighscores);
+
+// Highscore list - in HS section
+var highscoresList = document.getElementById(".highscore-list")
+
+// Back button
+var backBtn = document.getElementById("back");
+
+// Event listener on back button
+backBtn.addEventListener("click", returnToHomePage);
+
+// clear button
+var clearBtn = document.getElementById("clear");
+
+// Event listener on clear button
+clearBtn.addEventListener("click", function() {
+    // clear scores in mem?
+    
+});
 
 // *****************************
 // ***** QUESTION SECTION ******
@@ -83,57 +114,58 @@ var answerArray = [answerOne, answerTwo, answerThree, answerFour];
 
 // Event Listeners on answer buttons to check if user selection is correct
 for (var i = 0; i < answerArray.length; i++) {
-    answerArray[i].addEventListener("click", function() {
-        checkCorrect(i);
-    });
+    answerArray[i].addEventListener("click", checkCorrect);
 }
 
-// Question #1 
-var questionOne = {
-    question: "Which of the following git commands is used to create a branch?",
-    answerOptions: ["1. git push origin <branch-name>", "2. git branch <branchname>", "3. git clone <link>", "4. git checkout <branchname"],
-    answerIndex: 1,
-};
+// Array of questions asked to user
+var questionArray = [
+    // Question #1 
+    {
+        question: "Which of the following git commands is used to create a branch?",
+        answerOptions: ["1. git push origin <branch-name>", "2. git branch <branchname>", "3. git clone <link>", "4. git checkout <branchname"],
+        answerIndex: 1,
+    },
 
-// Question #2 
-var questionTwo = {
-    question: "Media queries...",
-    answerOptions: ["1. are used to display alerts, prompts and confirmations.", "2. define which questions you can ask on webpage.", 
-                    "3. help style videos.", "4. define how styles are applied based on characteristics of viewport."],
-    answerIndex: 3,
-};
+    // Question #2 
+    {
+        question: "Media queries...",
+        answerOptions: ["1. are used to display alerts, prompts and confirmations.", "2. define which questions you can ask on webpage.", 
+                        "3. help style videos.", "4. define how styles are applied based on characteristics of viewport."],
+        answerIndex: 3,
+    },
 
-// Question #3
-var questionThree = {
-    question: "Viewport refers to...",
-    answerOptions: ["1. the small icon in the webpage tab next to title.", "2. display being used to view the website.",
-                    "3. the header section that appears on every webpage with the same template.", "4. what the user views at a particular time."],
-    answerIndex: 1,
-};
+    // Question #3
+    {
+        question: "Viewport refers to...",
+        answerOptions: ["1. the small icon in the webpage tab next to title.", "2. display being used to view the website.",
+                        "3. the header section that appears on every webpage with the same template.", "4. what the user views at a particular time."],
+        answerIndex: 1,
+    },
 
-// Question #4
-var questionFour = {
-    question: "How do you output directly to HTML page?",
-    answerOptions: ["1. print('hello')", "2. console.log('hello')", "3. document.write('hello')", "4. prompt('hello')"],
-    answerIndex: 2,
-};
+    // Question #4
+    {
+        question: "How do you output directly to HTML page?",
+        answerOptions: ["1. print('hello')", "2. console.log('hello')", "3. document.write('hello')", "4. prompt('hello')"],
+        answerIndex: 2,
+    },
 
-// Question #5
-var questionFive = {
-    question: "Which of the following is not true about rows?",
-    answerOptions: ["1. In the syntax: row-sz-#, sz refers to viewing size.","2. There can be sub-rows.","3. They belong inside columns.", "4. They can be a maximum of 12 wide."],
-    answerIndex: 2,
-};
+    // Question #5
+    {
+        question: "Which of the following is not true about rows?",
+        answerOptions: ["1. In the syntax: row-sz-#, sz refers to viewing size.","2. There can be sub-rows.","3. They belong inside columns.", "4. They can be a maximum of 12 wide."],
+        answerIndex: 2,
+    },
 
-// Question #6
-var questionSix = {
-    question: "What wraps around a Bootstrap grid?",
-    answerOptions: ["1. class='container'", "2. class='row'", "3. class='col'", "4. class='wrapper'"],
-    answerIndex: 0,
-};
+    // Question #6
+    {
+        question: "What wraps around a Bootstrap grid?",
+        answerOptions: ["1. class='container'", "2. class='row'", "3. class='col'", "4. class='wrapper'"],
+        answerIndex: 0,
+    },
+]
 
 // Array of questions
-var questionArray = [questionOne, questionTwo, questionThree, questionFour, questionFive, questionSix];
+//var questionArray = [questionOne, questionTwo, questionThree, questionFour, questionFive, questionSix];
 
 
 // Set timer count to 75
@@ -141,8 +173,6 @@ var timeLeft = 75;
 
 // Start of quiz
 function start() {
-
-    console.log(timeLeft);
 
     // Start timer
     startTimer();
@@ -162,13 +192,11 @@ function startTimer() {
         timeEl.textContent = timeLeft;
         // Decrement time left
         timeLeft--;
-        console.log(timeLeft);
 
-      
         // Countdown finished, switch to score section
         if (timeLeft === 0) {
-            timeEl.textContent = "";
             clearInterval(timerInterval);
+            timeEl.textContent = "";
             // Call End Game
             endGame();
 
@@ -204,33 +232,35 @@ function displayQuestion (questionIndex) {
     questionSec.style.display = "block";
 }
 
-
-var scoreCount = 0;
-
 // Number of total questions
 var questionsLeft = questionArray.length;
 // lastIndex number
 var lastIndex = questionsLeft - 1;
 
 // check if button selected is correct answer
-function checkCorrect (indexOfAnswer) {
+function checkCorrect () {
+
+    console.log(questionArray[currentIndex].answerIndex);
+    var id = parseInt(this.value);
 
     // Check if correct answer is the same as answer index
-    if (questionArray[currentIndex].answerIndex === indexOfAnswer) {
+    if (questionArray[currentIndex].answerIndex === id) {
         // Display correct
-        answer = "Correct";
+        answer.innerHTML = "Correct";
+
         // + 20 points if answered correctly
         scoreCount = scoreCount + 20;
-        
+
     }
     // Incorrect answer 
     else {
 
         // Display incorrect
-        answer = "Incorrect";
+        answer.innerHTML = "Incorrect";
+
          // - 5 points if answered incorrectly
          scoreCount = scoreCount - 5;
-
+         
         // Decrement time
         if (timeLeft > 20) {
             timeLeft = timeLeft - 10;
@@ -263,7 +293,12 @@ function endGame() {
     clearInterval(timerInterval);
 
     // Add to score the number of seconds left
-    scoreCount = scoreCount +  timeEl.textContent;
+    console.log(scoreCount);
+    var timeInt = parseInt(timeEl.textContent);
+    scoreCount = scoreCount + timeInt;
+
+    console.log("endGame");
+    console.log(scoreCount);
 
     // Set to 0
     timeEl.textContent = 0;
@@ -276,37 +311,49 @@ function endGame() {
 
 }
 
+
+
 function submit() {
 
     // Get initials value and trim 
     var initialsTrim = inputInitials.value.trim();
 
-    // User highscore object
-    // var userScore = {
-    //     initials: initialsTrim,
-    //     highscore: scoreCount
-    // }
+    // Clear input 
+    inputInitials.value = "";
 
-    // Set initials in local storage
-    // will overwrite if initials are the same
-    localStorage.setItem(initialsTrim, scoreCount);
+    // User highscore object
+    var userScore = {
+        initials: initialsTrim,
+        highscore: scoreCount
+    }
+
+    highscoresArr.push(userScore);
+
+    // Set highscore to stringifyed array
+    localStorage.setItem("highscores", JSON.stringify(highscoresArr));
 
     // Go to highscores page
+    highscoreSec.style.display = "block";
+    
+}
+
+
+function getHighscores() {
+
+    // Get highscores array of userscores
+    highscoresArr = JSON.parse(localStorage.getItem("highscores"));
+
+    // Loop through each HS
+    // for (var i = 0; i < highscoresArr.length; i++) {
+        // create a new obj
+
+        // change the textContent 
+
+        // diplay obj   
+    //}
 
 }
 
-// Back button
-var backBtn = document.getElementById("back");
-// Event listener on back button
-backBtn.addEventListener("click", function() {
-    // Go back to index.html?
-    console.log("back");
-});
-
-// clear button
-var clearBtn = document.getElementById("clear");
-// Event listener on clear button
-clearBtn.addEventListener("click", function() {
-    // 
-    console.log("clear");
-});
+function returnToHomePage() {
+    // reload main page?
+}

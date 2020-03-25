@@ -24,3 +24,8 @@
     color: white;
 }
 
+/* children of form group */
+.form-group > .hs {
+    margin-top: 10px;
+}
+
